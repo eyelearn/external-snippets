@@ -21,7 +21,7 @@ function generateToken(string $username):string {
 
     $now = new DateTimeImmutable();
 
-    $token = $configuration->builder()
+    return $configuration->builder()
         ->issuedBy($EYELEARN_DATA['hostedOn'])
         ->permittedFor('https://eyesee.eyelearn.at')
         ->issuedAt($now)
@@ -29,15 +29,16 @@ function generateToken(string $username):string {
         ->expiresAt($now->modify('+5 minutes'))
         ->withClaim('username', $username)
         ->withHeader('tokenVersion', $EYELEARN_DATA['tokenversion'])
-        ->getToken($configuration->signer(), $configuration->signingKey());
-
-    return $token->toString();
+        ->getToken($configuration->signer(), $configuration->signingKey())
+        ->toString();
 }
 
 function generateUrl(string $username):string {
     global $EYELEARN_DATA;
 
-    return "https://eyesee.eyelearn.at/?action=externallogin&master=" . $EYELEARN_DATA['masterID'] . '&token=' . generateToken($username) . '&version=' . $EYELEARN_DATA['tokenversion'];
+    $token = generateToken($username);
+
+    return "https://eyesee.eyelearn.at/?action=externallogin&master=$EYELEARN_DATA[masterID]&token=$token&version=$EYELEARN_DATA[tokenversion]";
 }
 
 echo generateUrl('user1234');
