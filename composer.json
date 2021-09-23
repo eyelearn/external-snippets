@@ -1,0 +1,14 @@
+{
+    "name": "eyelearn/snippets",
+    "description": "Snippets zur einbindung",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastian Krüger",
+            "email": "2pi_r2@gmx.de"
+        }
+    ],
+    "require": {
+        "lcobucci/jwt": "^3.4"
+    }
+}
